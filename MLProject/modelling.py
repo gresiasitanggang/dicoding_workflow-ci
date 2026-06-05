@@ -9,9 +9,10 @@ import os
 import zipfile
 import numpy as np
 import pandas as pd
+import tensorflow as tf
+import matplotlib.pyplot as plt
 import shutil
 import random
-import tensorflow as tf
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
@@ -19,10 +20,12 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras import Input
 from PIL import Image
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.layers import (Conv2D, MaxPooling2D, GlobalAveragePooling2D, Dense, Dropout)
+
+from tensorflow.keras.layers import (Conv2D, MaxPooling2D, BatchNormalization, GlobalAveragePooling2D, Dense, Dropout)
 from tensorflow.keras.callbacks import (EarlyStopping, ModelCheckpoint, ReduceLROnPlateau)
 import mlflow
 import mlflow.tensorflow
+
 mlflow.tensorflow.autolog()
 
 """## Data Preparation
@@ -30,11 +33,11 @@ mlflow.tensorflow.autolog()
 ### Data Loading
 """
 
-zip_path = 'archive.zip'
+zip_path = 'dataset.zip'
 extracted_dir = 'dataset'
 
-if not os.path.exist(extracted_dir) and os.path.exists(zip_path):
-    print("Mengekstrak dataset...")
+if not os.path.exists(extracted_dir) and os.path.exists(zip_path):
+    print("Mengekstrak dataset.zip...")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall('.')
     print("Ekstrak selesai.")
@@ -54,6 +57,7 @@ test_dir = os.path.join(base_dir, "test")
 
 if os.path.exists(base_dir):
     shutil.rmtree(base_dir)
+
 for folder in [train_dir, val_dir, test_dir]:
     os.makedirs(folder, exist_ok=True)
 
