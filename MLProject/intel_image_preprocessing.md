@@ -1,9 +1,5 @@
-Folder ini dihasilkan otomatis oleh
-automate_GresiaSitanggang.py
+# Intel Image Preprocessing
 
-Struktur output:
+Dataset asli yang terdiri dari 24.000+ gambar telah dikompresi menjadi `dataset.zip` demi efisiensi waktu eksekusi pada workflow CI. File tersebut dilacak menggunakan Git LFS (`with Git LFS tracking`). 
 
-intel_preprocessing/
-├── train
-├── validation
-└── test
+Proses ekstraksi dilakukan secara otomatis oleh script `modelling.py` sesaat sebelum proses pelatihan model dimulai di dalam lingkungan runner CI.
