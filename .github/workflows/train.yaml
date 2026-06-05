@@ -1,0 +1,36 @@
+name: Retrain Model
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+
+  train:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install mlflow==2.19.0
+          pip install tensorflow==2.19.0
+          pip install keras==3.8.0
+          pip install numpy
+          pip install scikit-learn
+
+      - name: Run MLflow Project
+        run: |
+          mlflow run MLProject
