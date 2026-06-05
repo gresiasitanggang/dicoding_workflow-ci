@@ -42,7 +42,7 @@ if not os.path.exists(extracted_dir) and os.path.exists(zip_path):
         zip_ref.extractall('.')
     print("Ekstrak selesai.")
 
-original_dataset_dir = os.path.join(extracted_dir, "train", "train")
+original_dataset_dir = os.path.join(extracted_dir, "seg_train", "seg_train")
 base_dir = "dataset_split"
 
 """### Data Preprocessing
@@ -60,6 +60,9 @@ if os.path.exists(base_dir):
 
 for folder in [train_dir, val_dir, test_dir]:
     os.makedirs(folder, exist_ok=True)
+
+if not os.path.exists(original_dataset_dir):
+    raise FileNotFoundError(f"Folder tidak ditemukan di: {original_dataset_dir}. Pastikan isi archive.zip sesuai.")
 
 classes = [d for d in os.listdir(original_dataset_dir) if os.path.isdir(os.path.join(original_dataset_dir, d))]
 
