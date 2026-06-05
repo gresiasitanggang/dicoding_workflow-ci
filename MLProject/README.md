@@ -1,2 +1,0 @@
-Dataset Intel Image Classification tidak disertakan dalam repository karena ukuran dataset yang besar.
-Dataset dapat diperoleh dari Kaggle dan diproses menggunakan script eksperimen pada tahap sebelumnya.
