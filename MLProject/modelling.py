@@ -9,6 +9,7 @@ import os
 import zipfile
 import numpy as np
 import pandas as pd
+import glob
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import shutil
@@ -34,15 +35,21 @@ mlflow.tensorflow.autolog()
 """
 
 zip_path = 'archive.zip'
-extracted_dir = 'dataset'
+extracted_dir = 'dataset_extracted'
 
 if not os.path.exists(extracted_dir) and os.path.exists(zip_path):
     print("Mengekstrak archive.zip...")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-        zip_ref.extractall('.')
+        zip_ref.extractall(extracted_dir)
     print("Ekstrak selesai.")
 
-original_dataset_dir = os.path.join(extracted_dir, "seg_train", "seg_train")
+search_path = os.path.join(extracted_dir, "**", "seg_train")
+found_paths = glob.glob(search_path, recursive=True)
+if not found_paths:
+    raise FileNotFoundError(f"Kritis: Folder 'seg_train' tidak ditemukan sama sekali di dalam {zip_path}!")
+
+original_dataset_dir = [p for p in found_paths if os.path.isdir(p)][-1]
+print("Jalur seg_train asli yang berhasil ditemukan script:", original_dataset_dir)
 base_dir = "dataset_split"
 
 """### Data Preprocessing
@@ -65,6 +72,7 @@ if not os.path.exists(original_dataset_dir):
     raise FileNotFoundError(f"Folder tidak ditemukan di: {original_dataset_dir}. Pastikan isi archive.zip sesuai.")
 
 classes = [d for d in os.listdir(original_dataset_dir) if os.path.isdir(os.path.join(original_dataset_dir, d))]
+print("Kelas yang dideteksi untuk training:", classes)
 
 for cls in classes:
     cls_path = os.path.join(original_dataset_dir, cls)
