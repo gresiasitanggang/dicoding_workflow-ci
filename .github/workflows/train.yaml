@@ -21,12 +21,15 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install MLflow
+      - name: Install dependencies
         run: |
           pip install mlflow==2.19.0
+          pip install tensorflow==2.19.0
+          pip install keras==3.8.0
+          pip install numpy pandas matplotlib pillow scikit-learn
           pip install virtualenv
 
       - name: Run Training via MLflow Project
         run: |
           cd MLProject
-          mlflow run . --experiment-name "Intel-Classification-CI"
+          mlflow run . --env-manager local --experiment-name "Intel-Classification-CI"
