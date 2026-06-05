@@ -33,11 +33,11 @@ mlflow.tensorflow.autolog()
 ### Data Loading
 """
 
-zip_path = 'dataset.zip'
+zip_path = 'archive.zip'
 extracted_dir = 'dataset'
 
 if not os.path.exists(extracted_dir) and os.path.exists(zip_path):
-    print("Mengekstrak dataset.zip...")
+    print("Mengekstrak archive.zip...")
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall('.')
     print("Ekstrak selesai.")
